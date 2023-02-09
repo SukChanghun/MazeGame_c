@@ -1,10 +1,32 @@
-#include "SnakeHeader.h"
+#define _CRT_SECURE_NO_WARNINGS
+#include <Windows.h>//콘솔의 위치를 지정할수있는 함수
+#include <stdio.h>
+
+#define MAP_SIZE 19
+
+//콘솔 중앙에 미로를 출력하기위해 기본좌표값 설정
+#define XP 40
+#define YP 5
+
+void GotoXY(int x, int y);//출력위치를 변경하는 함수
+void Selectlevel(void);// 레벨설정
+void LoadMaze(char num);//맵 난이도 설정 함수
+void DrawMap(void);//테스트 맵그리기함수
+void PrintMazeGame(void);//맵 그리기함수
+void CursorView(char show);//커서 없애기 함수
+
+char maze[MAP_SIZE][MAP_SIZE];//맵 배열
+char level;//맵난이도
+
 
 int main(void)
 {
+	CursorView(0);
+
 	Selectlevel();
 	LoadMaze(level);
-	DrawMap();
+	//DrawMap(); // 테스트
+	PrintMazeGame();
 
 	return 0;
 }
@@ -74,6 +96,55 @@ void DrawMap(void)
 		}
 		printf("\n");
 	}
+}
+
+void PrintMazeGame(void)
+{
+	while (1)
+	{
+		for (int i = 0; i < MAP_SIZE; i++)
+		{
+			GotoXY(XP, YP + i);
+			//콘솔창에 미로 그리기
+
+			for (int j = 0; j < MAP_SIZE; j++)
+			{
+				if (maze[i][j] == '1')
+				{
+					printf("■");
+				}
+				else if (maze[i][j] == 'y')
+				{
+					printf("★");
+				}
+				else if (maze[i][j] == '0')
+				{
+					printf("□");
+				}
+				else
+				{
+					printf("●");
+				}
+			}
+			printf("\n");
+		}
+	}
+}
+
+void CursorView(char show)
+{
+	CONSOLE_CURSOR_INFO ConsoleCursor;
+	//CONSOLE_CURSOR_INFO 구조체를 생성
+	//해당 구조체는 커서의 두께를 의미하는 dwSize와 커서의 노출 여부를 결정하는
+	//bVisible 커서의 노출 여부를 결정하는 bVisible 두 개를 멤버 변수로 갖는답니다
+	
+	ConsoleCursor.bVisible = show;
+	ConsoleCursor.dwSize = 1;
+	//해당 변수는 True, False의 의미를 갖는 1, 0이 될 예정이니, bVisible의 값으로 설정
+
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &ConsoleCursor);
+	//SetConsoleCursorInfo는 "콘솔의 핸들 값" 과 "콘솔 커서 정보"를 받아,
+	//해당 콘솔의 설정을 변경하는 함수에요.
 }
 
 

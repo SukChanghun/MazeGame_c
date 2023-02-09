@@ -5,17 +5,22 @@
 
 
 	#define _CRT_SECURE_NO_WARNINGS
-	#include <Windows.h>//콘솔의 위치를 지정할수있는 함수
+	#include <Windows.h>
 	#include <stdio.h>
 
 	#define MAP_SIZE 19
+	#define XP 40
+	#define YP 5
 
-	void GotoXY(int x, int y);//출력위치를 변경하는 함수
+
+	void GotoXY(int x, int y);
 	void Selectlevel(void);
-	void LoadMaze(char num);//맵 난이도 설정 함수
-	void DrawMap(void);
+	void LoadMaze(char num);
+	//void DrawMap(void);
+	void PrintMazeGame(void);
+	void CursorView(char show);
 
-	char maze[MAP_SIZE][MAP_SIZE];//맵 배열
-	char level;//맵난이도
+	char maze[MAP_SIZE][MAP_SIZE];
+	char level;
 
 #endif // !SnakeHeader.h

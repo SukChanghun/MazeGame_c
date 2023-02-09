@@ -2,9 +2,11 @@
 
 int main(void)
 {
+	CursorView(0);
+
 	Selectlevel();
 	LoadMaze(level);
-	DrawMap();
+	PrintMazeGame();
 
 	return 0;
 }
