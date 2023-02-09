@@ -18,5 +18,16 @@
     <ClCompile Include="SnakeGame_source.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="SnakeHeader.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Snakemain.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SnakeHeader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

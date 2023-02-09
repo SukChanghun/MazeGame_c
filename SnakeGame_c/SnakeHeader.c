@@ -1,17 +1,8 @@
 #include "SnakeHeader.h"
 
-int main(void)
-{
-	Selectlevel();
-	LoadMaze(level);
-	DrawMap();
-
-	return 0;
-}
-
 void GotoXY(int x, int y)
 {
-	COORD Pos; 
+	COORD Pos;
 	//COORD라는 구조체는 헤더파일에 선언되어있는 x,y값을 저장
 	Pos.X = x;
 	Pos.Y = y;
@@ -42,8 +33,8 @@ void LoadMaze(char num)
 
 	//3.미로저장
 	for (int i = 0; i < MAP_SIZE; i++)
-	//첫번째 반복문의 내부에서 fgets로 한줄의 데이터를가져온다
-	//다음 strtok함수를 이용해 탭으로 문자열을 분리한뒤, 미로에 저장한다.
+		//첫번째 반복문의 내부에서 fgets로 한줄의 데이터를가져온다
+		//다음 strtok함수를 이용해 탭으로 문자열을 분리한뒤, 미로에 저장한다.
 	{
 		fgets(str_tmp, 50, f);
 		//fgets : gets_s함수와 비슷함
@@ -75,5 +66,3 @@ void DrawMap(void)
 		printf("\n");
 	}
 }
-
-
