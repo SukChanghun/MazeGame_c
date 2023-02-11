@@ -7,6 +7,7 @@
 	#include <Windows.h>
 	#include <stdio.h>
 	#include <conio.h>
+	#include <time.h>
 
 	#define MAP_SIZE 19
 	#define XP 40
@@ -28,9 +29,12 @@
 	void MoveMaze(int* row, int* col);
 	int IsBlock(int i, int j);
 	int IsFinish(int i, int j);
+	void Complete();
 
 	char maze[MAP_SIZE][MAP_SIZE];
 	char level;
 	int row, col;
+	clock_t start, end;
+	float res;
 
 #endif // !SnakeHeader.h

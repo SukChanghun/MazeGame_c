@@ -151,7 +151,10 @@ void MoveMaze(int* row, int* col)
 				}
 				else if (IsFinish(*row - 1, *col))
 				{
-					exit(0);
+					maze[*row][*col] = '0';
+					maze[*row - 1][*col] = 'x';
+					PrintMazeGame();
+					Complete();
 				}
 				break;
 
@@ -164,7 +167,10 @@ void MoveMaze(int* row, int* col)
 				}
 				else if (IsFinish(*row + 1, *col))
 				{
-					exit(0);
+					maze[*row][*col] = '0';
+					maze[*row + 1][*col] = 'x';
+					PrintMazeGame();
+					Complete();
 				}
 				break;
 
@@ -177,7 +183,10 @@ void MoveMaze(int* row, int* col)
 				}
 				else if (IsFinish(*row, *col - 1))
 				{
-					exit(0);
+					maze[*row][*col] = '0';
+					maze[*row][*col - 1] = 'x';
+					PrintMazeGame();
+					Complete();
 				}
 				break;
 
@@ -190,7 +199,10 @@ void MoveMaze(int* row, int* col)
 				}
 				else if (IsFinish(*row, *col + 1))
 				{
-					exit(0);
+					maze[*row][*col] = '0';
+					maze[*row][*col + 1] = 'x';
+					PrintMazeGame();
+					Complete();
 				}
 				break;
 			}
@@ -220,5 +232,17 @@ int IsFinish(int i, int j)
 	{
 		return 0;
 	}
+}
+
+void Complete(void)
+{
+	end = clock();
+	res = (float)(end - start) / CLOCKS_PER_SEC;
+
+	GotoXY(XP, YP + MAP_SIZE);
+	printf("Complete!\n");
+	GotoXY(XP, YP + MAP_SIZE + 1);
+	printf("경과시간 : %.2f초", res);
+	exit(0);
 }
 
