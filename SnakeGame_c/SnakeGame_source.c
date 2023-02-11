@@ -39,12 +39,16 @@ int main(void)
 
 	GotoXY(XP, YP - 3);
 	printf("미로찾기게임\n");
-
 	Selectlevel();
 	LoadMaze(level);
 	//DrawMap(); // 테스트
-	PrintMazeGame();
-	MoveMaze(&row, &col);
+
+	while (1)
+	{
+		PrintMazeGame();
+		MoveMaze(&row, &col);
+	}
+
 
 	return 0;
 }
@@ -62,6 +66,7 @@ void GotoXY(int x, int y)
 
 void Selectlevel(void)
 {
+
 	GotoXY(XP, YP - 2);
 	printf("난이도를 선택하세요 : (1 2 3)");
 	scanf("%c", &level);
@@ -119,8 +124,6 @@ void DrawMap(void)
 
 void PrintMazeGame(void)
 {
-	while (1)
-	{
 		for (int i = 0; i < MAP_SIZE; i++)
 		{
 			GotoXY(XP, YP + i);
@@ -148,7 +151,6 @@ void PrintMazeGame(void)
 			printf("\n");
 		}
 	}
-}
 
 void CursorView(char show)
 {
@@ -205,8 +207,6 @@ void MoveMaze_test(void) //의사코드로 작성
 
 void MoveMaze(int* row, int* col) //의사코드로 작성
 {
-		while(1)
-		{
 		int nkey;
 
 		if (_kbhit())
@@ -216,7 +216,7 @@ void MoveMaze(int* row, int* col) //의사코드로 작성
 			if (nkey == ARROW) //ARROW -> 224
 			{
 				nkey = _getch();
-				switch(nkey)
+				switch (nkey)
 				{
 				case UP:
 					if (!(IsBlock(*row - 1, *col)))
@@ -275,7 +275,6 @@ void MoveMaze(int* row, int* col) //의사코드로 작성
 			}
 		}
 	}
-}
 
 int IsBlock(int i, int j)
 {
