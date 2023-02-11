@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <Windows.h>//콘솔의 위치를 지정할수있는 함수
 #include <stdio.h>
+#include <conio.h>//콘솔 입출력 함수
 
 #define MAP_SIZE 19
 
@@ -8,25 +9,42 @@
 #define XP 40
 #define YP 5
 
+#define LEFT 75
+#define RIGHT 77
+#define UP 72
+#define DOWN 80
+#define ARROW 224
+
 void GotoXY(int x, int y);//출력위치를 변경하는 함수
-void Selectlevel(void);// 레벨설정
+void Selectlevel();// 레벨설정
 void LoadMaze(char num);//맵 난이도 설정 함수
-void DrawMap(void);//테스트 맵그리기함수
-void PrintMazeGame(void);//맵 그리기함수
+void DrawMap();//테스트 맵그리기함수
+void PrintMazeGame();//맵 그리기함수
 void CursorView(char show);//커서 없애기 함수
+void MoveMaze_test();//키 입력을 받는함수
+void MoveMaze(int* row, int* col);//움직이기함수
+int IsBlock(int i, int j);//주어진 좌표가 막힌곳, 혹은 도착지인지 판단함수
+int IsFinish(int i, int j);//주아전 좌표가 도착지인지 판단함수
 
 char maze[MAP_SIZE][MAP_SIZE];//맵 배열
 char level;//맵난이도
+int row, col;//플레이어 시작위치 좌표
 
 
 int main(void)
 {
+	row = 2, col = 1;
+
 	CursorView(0);
+
+	GotoXY(XP, YP - 3);
+	printf("미로찾기게임\n");
 
 	Selectlevel();
 	LoadMaze(level);
 	//DrawMap(); // 테스트
 	PrintMazeGame();
+	MoveMaze(&row, &col);
 
 	return 0;
 }
@@ -44,6 +62,7 @@ void GotoXY(int x, int y)
 
 void Selectlevel(void)
 {
+	GotoXY(XP, YP - 2);
 	printf("난이도를 선택하세요 : (1 2 3)");
 	scanf("%c", &level);
 }
@@ -147,4 +166,138 @@ void CursorView(char show)
 	//해당 콘솔의 설정을 변경하는 함수에요.
 }
 
+void MoveMaze_test(void) //의사코드로 작성
+{
+	while (1)
+	{
+		int nkey;
+
+		if (_kbhit())
+		{
+			nkey = _getch();
+
+			if (nkey == ARROW) //ARROW -> 224
+			{
+				nkey = _getch();
+
+				switch (nkey)
+				{
+				case UP:
+					printf("위");
+					break;
+
+				case DOWN:
+					printf("아래");
+					break;
+
+				case LEFT:
+					printf("왼쪽");
+					break;
+
+				case RIGHT:
+					printf("오른쪽");
+					break;
+				}
+			}
+		}
+	}
+}
+
+void MoveMaze(int* row, int* col) //의사코드로 작성
+{
+		while(1)
+		{
+		int nkey;
+
+		if (_kbhit())
+		{
+			nkey = _getch();
+
+			if (nkey == ARROW) //ARROW -> 224
+			{
+				nkey = _getch();
+				switch(nkey)
+				{
+				case UP:
+					if (!(IsBlock(*row - 1, *col)))
+						//*row-1인이유 바로이동하고자 하는 좌표가 한칸 위의 좌표이기 때문에
+					{
+						maze[*row][*col] = '0'; //미로의 *(x), *(y)를 길로 변경
+						maze[*row - 1][*col] = 'x'; //미로의 *(x), *(y-1)를 플레이어로 변경
+						*row -= 1; //*(y)를 *(y)-1로 변경
+					}
+					else if(IsFinish(*row-1,*col)) //위쪽이 도착지라면?
+					{
+						exit(0);
+						//임시로 강제종료
+					}
+					break;
+
+				case DOWN:
+					if (!(IsBlock(*row + 1, *col)))
+					{
+						maze[*row][*col] = '0';
+						maze[*row + 1][*col] = 'x';
+						*row += 1;
+					}
+					else if (IsFinish(*row + 1, *col))
+					{
+						exit(0);
+					}
+					break;
+
+				case LEFT:
+					if (!(IsBlock(*row, *col - 1)))
+					{
+						maze[*row][*col] = '0';
+						maze[*row][*col - 1] = 'x';
+						*col -= 1;
+					}
+					else if (IsFinish(*row, *col - 1))
+					{
+						exit(0);
+					}
+					break;
+
+				case RIGHT:
+					if (!(IsBlock(*row, *col + 1)))
+					{
+						maze[*row][*col] = '0';
+						maze[*row][*col + 1] = 'x';
+						*col += 1;
+					}
+					else if (IsFinish(*row, *col + 1))
+					{
+						exit(0);
+					}
+					break;
+				}
+			}
+		}
+	}
+}
+
+int IsBlock(int i, int j)
+{
+	if (maze[i][j] == '1' || maze[i][j] == 'y')
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+int IsFinish(int i, int j)
+{
+	if (maze[i][j] == 'y')
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
 
